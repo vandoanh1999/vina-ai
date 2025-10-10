@@ -6,13 +6,13 @@ type Entitlements = {
   availableChatModelIds: ChatModel["id"][];
 };
 
-export const entitlementsByUserType: Record<UserType, Entitlements> = {
+export const entitlementsByUserType: Record<UserType, Entitleaments> = {
   /*
    * For users without an account
    */
   guest: {
     maxMessagesPerDay: 20,
-    availableChatModelIds: ["chat-model", "chat-model-reasoning"],
+    availableChatModelIds: ["chat-model"],
   },
 
   /*
