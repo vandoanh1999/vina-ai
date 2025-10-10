@@ -15,7 +15,9 @@
     "db:pull": "drizzle-kit pull",
     "db:check": "drizzle-kit check",
     "db:up": "drizzle-kit up",
-    "test": "export PLAYWRIGHT=True && pnpm exec playwright test"
+    "test": "export PLAYWRIGHT=True && pnpm exec playwright test",
+    "termux:install": "pnpm install --no-optional --legacy-peer-deps",
+    "termux:dev": "NODE_OPTIONS='--max-old-space-size=2048' next dev"
   },
   "dependencies": {
     "@ai-sdk/gateway": "^1.0.15",
@@ -108,5 +110,19 @@
     "typescript": "^5.6.3",
     "ultracite": "5.3.9"
   },
-  "packageManager": "pnpm@9.12.3"
+  "optionalDependencies": {
+    "bufferutil": "^4.0.9",
+    "utf-8-validate": "^6.0.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "bufferutil": "npm:noop-package@1.0.0",
+      "utf-8-validate": "npm:noop-package@1.0.0"
+    }
+  },
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  }
 }
