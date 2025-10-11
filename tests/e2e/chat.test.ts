@@ -169,4 +169,13 @@ test.describe("Chat activity", () => {
     await chatPage.waitForScrollToBottom();
     await expect(chatPage.scrollToBottomButton).not.toBeVisible();
   });
+
+  test("GitHub repository link is present in header", async ({ page }) => {
+    const githubLink = page.getByRole("link", { name: /View on GitHub/i });
+    await expect(githubLink).toBeVisible();
+    await expect(githubLink).toHaveAttribute(
+      "href",
+      "https://github.com/vandoanh1999/vina-ai"
+    );
+  });
 });
