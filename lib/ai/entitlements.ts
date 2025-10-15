@@ -6,7 +6,7 @@ type Entitlements = {
   availableChatModelIds: ChatModel["id"][];
 };
 
-export const entitlementsByUserType: Record<UserType, Entitleaments> = {
+export const entitlementsByUserType: Record<UserType, Entitlements> = {
   /*
    * For users without an account
    */

@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
+    "mobile": "node start-mobile.js",
+    "android": "cross-env NODE_OPTIONS='--max-old-space-size=1024' next dev --port 3000",
     "build": "next build",
     "start": "next start",
     "lint": "ultracite check",
@@ -21,6 +23,7 @@
   },
   "dependencies": {
     "@ai-sdk/gateway": "^1.0.15",
+    "@ai-sdk/groq": "^2.0.24",
     "@ai-sdk/provider": "2.0.0",
     "@ai-sdk/react": "2.0.26",
     "@ai-sdk/xai": "2.0.13",
