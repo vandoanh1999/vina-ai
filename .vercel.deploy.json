@@ -1,0 +1,9 @@
+{
+  "projectSettings": {
+    "framework": "nextjs"
+  },
+  "env": {
+    "GROQ_API_KEY": "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",
+    "AUTH_SECRET": "3HyoYyaDod4oNc+A9Fqxh771YOvCPTMZriYAvXup7Hw="
+  }
+}
