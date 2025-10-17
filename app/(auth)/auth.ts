@@ -97,12 +97,22 @@ export const {
       return token;
     },
     session({ session, token }) {
-      if (session.user) {
+      if (session.user && token.id) {
         session.user.id = token.id;
         session.user.type = token.type;
       }
 
       return session;
+    },
+    signIn({ user }) {
+      // Ensure user has required fields for JWT token
+      if (!user.id) {
+        console.error("SignIn failed: user.id is missing");
+        return false;
+      }
+
+      console.log("SignIn successful for user:", user.id, "type:", user.type);
+      return true;
     },
   },
 });

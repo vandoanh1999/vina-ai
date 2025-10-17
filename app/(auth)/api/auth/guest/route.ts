@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { signIn } from "@/app/(auth)/auth";
 import { isDevelopmentEnvironment } from "@/lib/constants";
 
 export async function GET(request: Request) {
@@ -32,8 +31,13 @@ export async function GET(request: Request) {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
-    console.log("Attempting guest sign in");
-    return await signIn("guest", { redirect: true, redirectTo: redirectUrl });
+    // Fix: Redirect to NextAuth signin endpoint instead of calling signIn()
+    // This avoids the CallbackRouteError by using proper NextAuth flow
+    console.log("Redirecting to NextAuth signin with guest provider");
+    const nextAuthUrl = new URL("/api/auth/signin/guest", request.url);
+    nextAuthUrl.searchParams.set("callbackUrl", redirectUrl);
+
+    return NextResponse.redirect(nextAuthUrl);
   } catch (error) {
     console.error("Guest auth error:", error);
 
