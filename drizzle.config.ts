@@ -5,12 +5,14 @@ config({
   path: ".env.local",
 });
 
+// Import after dotenv config to ensure env vars are loaded
+import { env } from "./lib/env";
+
 export default defineConfig({
   schema: "./lib/db/schema.ts",
   out: "./lib/db/migrations",
   dialect: "postgresql",
   dbCredentials: {
-    // biome-ignore lint: Forbidden non-null assertion.
-    url: process.env.POSTGRES_URL!,
+    url: env.POSTGRES_URL,
   },
 });

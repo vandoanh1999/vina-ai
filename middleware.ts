@@ -17,26 +17,23 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Allow anonymous access - authentication is optional
+  // Users can browse and use the app without logging in
   const token = await getToken({
     req: request,
     secret: process.env.AUTH_SECRET,
     secureCookie: !isDevelopmentEnvironment,
   });
 
-  if (!token) {
-    const redirectUrl = encodeURIComponent(request.url);
-
-    return NextResponse.redirect(
-      new URL(`/api/auth/guest?redirectUrl=${redirectUrl}`, request.url)
-    );
+  // If user is logged in and tries to access login/register pages, redirect to home
+  if (token && ["/login", "/register"].includes(pathname)) {
+    const isGuest = guestRegex.test(token?.email ?? "");
+    if (!isGuest) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
   }
 
-  const isGuest = guestRegex.test(token?.email ?? "");
-
-  if (token && !isGuest && ["/login", "/register"].includes(pathname)) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
+  // Allow all requests to proceed - no forced authentication
   return NextResponse.next();
 }
 

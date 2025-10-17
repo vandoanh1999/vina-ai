@@ -1,3 +1,4 @@
+import type { Request as PlaywrightRequest } from "@playwright/test";
 import { getMessageByErrorCode } from "@/lib/errors";
 import { expect, test } from "../fixtures";
 import { generateRandomTestUser } from "../helpers";
@@ -15,7 +16,7 @@ test.describe
         throw new Error("Failed to load page");
       }
 
-      let request = response.request();
+      let request: PlaywrightRequest | null = response.request();
 
       const chain: string[] = [];
 
@@ -24,11 +25,7 @@ test.describe
         request = request.redirectedFrom();
       }
 
-      expect(chain).toEqual([
-        "http://localhost:3000/",
-        "http://localhost:3000/api/auth/guest?redirectUrl=http%3A%2F%2Flocalhost%3A3000%2F",
-        "http://localhost:3000/",
-      ]);
+      expect(chain).toEqual(["http://localhost:3000/"]);
     });
 
     test("Log out is not available for guest users", async ({ page }) => {
@@ -57,7 +54,7 @@ test.describe
         throw new Error("Failed to load page");
       }
 
-      let request = response.request();
+      let request: PlaywrightRequest | null = response.request();
 
       const chain: string[] = [];
 
@@ -142,8 +139,7 @@ test.describe
       const userEmail = await page.getByTestId("user-email");
       await expect(userEmail).toHaveText(testUser.email);
 
-      await page.goto("/api/auth/guest");
-      await page.waitForURL("/");
+      await page.reload();
 
       const updatedUserEmail = await page.getByTestId("user-email");
       await expect(updatedUserEmail).toHaveText(testUser.email);

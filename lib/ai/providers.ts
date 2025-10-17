@@ -5,10 +5,11 @@ import {
   wrapLanguageModel,
 } from "ai";
 import { isTestEnvironment } from "../constants";
+import { env } from "../env";
 
 // Tạo Groq provider
 const groq = createGroq({
-  apiKey: process.env.GROQ_API_KEY!,
+  apiKey: env.GROQ_API_KEY,
 });
 
 export const myProvider = isTestEnvironment

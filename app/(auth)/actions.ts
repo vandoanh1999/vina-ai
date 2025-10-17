@@ -1,10 +1,7 @@
 "use server";
 
 import { z } from "zod";
-
 import { createUser, getUser } from "@/lib/db/queries";
-
-import { signIn } from "./auth";
 
 const authFormSchema = z.object({
   email: z.string().email(),
@@ -82,3 +79,23 @@ export const register = async (
     return { status: "failed" };
   }
 };
+
+("use server");
+
+import { redirect } from "next/navigation";
+import { DUMMY_PASSWORD } from "@/lib/constants";
+import { signIn } from "./auth";
+
+export async function signInAsGuest() {
+  try {
+    await signIn("credentials", {
+      email: "guest@example.com",
+      password: DUMMY_PASSWORD,
+    });
+  } catch (error) {
+    console.error("Guest sign-in failed:", error);
+    throw new Error("Guest sign-in process failed.");
+  }
+
+  redirect("/");
+}

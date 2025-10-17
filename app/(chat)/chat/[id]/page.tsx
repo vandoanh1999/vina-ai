@@ -19,13 +19,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
   const session = await auth();
 
-  if (!session) {
-    redirect("/api/auth/guest");
-  }
-
+  // Allow viewing public chats without login
+  // Only check permissions for private chats
   if (chat.visibility === "private") {
-    if (!session.user) {
-      return notFound();
+    if (!session?.user) {
+      // Private chat requires login
+      redirect("/login");
     }
 
     if (session.user.id !== chat.userId) {

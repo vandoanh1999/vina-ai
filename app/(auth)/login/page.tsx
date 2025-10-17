@@ -4,11 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useActionState, useEffect, useState } from "react";
-
+import {
+  type LoginActionState,
+  login,
+  signInAsGuest,
+} from "@/app/(auth)/actions";
 import { AuthForm } from "@/components/auth-form";
 import { SubmitButton } from "@/components/submit-button";
 import { toast } from "@/components/toast";
-import { type LoginActionState, login } from "../actions";
 
 export default function Page() {
   const router = useRouter();
@@ -41,8 +44,7 @@ export default function Page() {
       updateSession();
       router.refresh();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.status]);
+  }, [router, state.status, updateSession]);
 
   const handleSubmit = (formData: FormData) => {
     setEmail(formData.get("email") as string);
@@ -60,6 +62,14 @@ export default function Page() {
         </div>
         <AuthForm action={handleSubmit} defaultEmail={email}>
           <SubmitButton isSuccessful={isSuccessful}>Sign in</SubmitButton>
+          <form action={signInAsGuest}>
+            <button
+              className="w-full rounded-md border border-muted bg-background py-2 font-medium text-foreground text-sm transition hover:bg-muted"
+              type="submit"
+            >
+              Sign in as Guest
+            </button>
+          </form>
           <p className="mt-4 text-center text-gray-600 text-sm dark:text-zinc-400">
             {"Don't have an account? "}
             <Link
