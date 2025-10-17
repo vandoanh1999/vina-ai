@@ -1,16 +1,13 @@
 import { generateId } from "ai";
-import { genSaltSync, hashSync } from "bcrypt-ts";
+import { hashPassword } from "@/lib/crypto/password";
 
-export function generateHashedPassword(password: string) {
-  const salt = genSaltSync(10);
-  const hash = hashSync(password, salt);
-
+export async function generateHashedPassword(password: string) {
+  const hash = await hashPassword(password);
   return hash;
 }
 
-export function generateDummyPassword() {
+export async function generateDummyPassword() {
   const password = generateId();
-  const hashedPassword = generateHashedPassword(password);
-
+  const hashedPassword = await generateHashedPassword(password);
   return hashedPassword;
 }

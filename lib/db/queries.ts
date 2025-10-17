@@ -53,7 +53,7 @@ export async function getUser(email: string): Promise<User[]> {
 }
 
 export async function createUser(email: string, password: string) {
-  const hashedPassword = generateHashedPassword(password);
+  const hashedPassword = await generateHashedPassword(password);
 
   try {
     return await db.insert(user).values({ email, password: hashedPassword });
@@ -64,7 +64,7 @@ export async function createUser(email: string, password: string) {
 
 export async function createGuestUser() {
   const email = `guest-${Date.now()}`;
-  const password = generateHashedPassword(generateUUID());
+  const password = await generateHashedPassword(generateUUID());
 
   try {
     return await db.insert(user).values({ email, password }).returning({
