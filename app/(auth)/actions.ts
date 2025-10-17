@@ -1,7 +1,11 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { z } from "zod";
+
+import { DUMMY_PASSWORD } from "@/lib/constants";
 import { createUser, getUser } from "@/lib/db/queries";
+import { signIn } from "./auth";
 
 const authFormSchema = z.object({
   email: z.string().email(),
@@ -79,12 +83,6 @@ export const register = async (
     return { status: "failed" };
   }
 };
-
-("use server");
-
-import { redirect } from "next/navigation";
-import { DUMMY_PASSWORD } from "@/lib/constants";
-import { signIn } from "./auth";
 
 export async function signInAsGuest() {
   try {
