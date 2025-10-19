@@ -31,5 +31,25 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit"
+  },
+  "chat.tools.terminal.autoApprove": {
+    "git status": true,
+    "git pull": true,
+    "git diff": true,
+    "git log": true,
+    "/^git show/": true,
+    "ls": true,
+    "ls -la": true,
+    "pwd": true,
+    "mkdir": true,
+    "cd": true,
+    "cat": true,
+    "pnpm install": true,
+    "pnpm dev": true,
+    "pnpm build": true,
+    "pnpm lint": true,
+    "pnpm test": true,
+    "vercel env pull": true,
+    "vercel dev": true
   }
 }
