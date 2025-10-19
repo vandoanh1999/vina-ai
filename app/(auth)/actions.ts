@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { DUMMY_PASSWORD } from "@/lib/constants";
+// DUMMY_PASSWORD intentionally removed; guest sign-in uses the 'guest' provider.
 import { createUser, getUser } from "@/lib/db/queries";
 import { signIn } from "./auth";
 
@@ -86,9 +86,10 @@ export const register = async (
 
 export async function signInAsGuest() {
   try {
-    await signIn("credentials", {
-      email: "guest@example.com",
-      password: DUMMY_PASSWORD,
+    // Use the dedicated guest provider (id: "guest") so we don't need to post CSRF-protected
+    // credentials. The provider's authorize() creates a guest user server-side.
+    await signIn("guest", {
+      redirect: false,
     });
   } catch (error) {
     console.error("Guest sign-in failed:", error);
