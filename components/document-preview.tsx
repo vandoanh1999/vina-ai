@@ -22,10 +22,17 @@ import { ImageEditor } from "./image-editor";
 import { SpreadsheetEditor } from "./sheet-editor";
 import { Editor } from "./text-editor";
 
+type DocumentLike = {
+  id?: string;
+  title?: string;
+  kind?: ArtifactKind;
+  [key: string]: unknown;
+};
+
 type DocumentPreviewProps = {
   isReadonly: boolean;
-  result?: any;
-  args?: any;
+  result?: DocumentLike;
+  args?: DocumentLike;
 };
 
 export function DocumentPreview({
@@ -149,7 +156,7 @@ const PureHitboxLayer = ({
   setArtifact,
 }: {
   hitboxRef: React.RefObject<HTMLDivElement>;
-  result: any;
+  result: DocumentLike;
   setArtifact: (
     updaterFn: UIArtifact | ((currentArtifact: UIArtifact) => UIArtifact)
   ) => void;

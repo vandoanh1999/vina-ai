@@ -190,12 +190,12 @@ function PureMultimodalInput({
       }
       const { error } = await response.json();
       toast.error(error);
-    } catch (_error) {
+    } catch {
       toast.error("Failed to upload file, please try again!");
     }
   }, []);
 
-  const _modelResolver = useMemo(() => {
+  useMemo(() => {
     return myProvider.languageModel(selectedModelId);
   }, [selectedModelId]);
 
