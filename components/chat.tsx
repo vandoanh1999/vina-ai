@@ -102,8 +102,37 @@ export function Chat({
         setUsage(dataPart.data);
       }
     },
-    onFinish: () => {
+    onFinish: async (message) => {
       mutate(unstable_serialize(getChatHistoryPaginationKey));
+
+      const truthEngineResult = await fetch("/api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ problem: message.parts[0].content }),
+      }).then((res) => res.json());
+
+      if (truthEngineResult) {
+        const decision = truthEngineResult;
+        const reasoning = `
+          **Decision:** ${decision.answer ? "Yes" : "No"}
+          **Confidence:** ${decision.confidence_label} (${
+          decision.confidence
+        })
+          **Reasoning:**
+          ${decision.reasoning}
+        `;
+        setMessages([
+          ...messages,
+          message,
+          {
+            id: generateUUID(),
+            role: "assistant",
+            parts: [{ type: "text", text: reasoning }],
+          },
+        ]);
+      }
     },
     onError: (error) => {
       if (error instanceof ChatSDKError) {
