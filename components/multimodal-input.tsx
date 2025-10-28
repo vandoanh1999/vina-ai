@@ -195,10 +195,6 @@ function PureMultimodalInput({
     }
   }, []);
 
-  useMemo(() => {
-    return myProvider.languageModel(selectedModelId);
-  }, [selectedModelId]);
-
   const contextProps = useMemo(
     () => ({
       usage,
