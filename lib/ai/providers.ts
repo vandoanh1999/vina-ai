@@ -18,10 +18,10 @@ function safeLanguageModel(modelId: string) {
     // Log a warning so the issue is visible in runtime logs.
     // eslint-disable-next-line no-console
     console.warn(
-      `[ai] languageModel ${modelId} unavailable, falling back to llama-3.1-8b-instant:`,
+      `[ai] languageModel ${modelId} unavailable, falling back to llama-3.3-70b-versatile:`,
       err
     );
-    return groq.languageModel("llama-3.1-8b-instant");
+    return groq.languageModel("llama-3.3-70b-versatile");
   }
 }
 
@@ -46,7 +46,7 @@ export const myProvider = isTestEnvironment
       languageModels: {
         "chat-model": safeLanguageModel("llama-3.3-70b-versatile"),
         "chat-model-reasoning": safeLanguageModel("llama-3.3-70b-versatile"),
-        "title-model": safeLanguageModel("llama-3.1-8b-instant"),
+        "title-model": safeLanguageModel("llama-3.3-70b-versatile"),
         "artifact-model": safeLanguageModel("llama-3.3-70b-versatile"),
       },
     });

@@ -1,7 +1,7 @@
 // Avoid instantiating a specific groq model at import time; use ids and resolve at runtime.
-export const model = "llama-3.1-8b-instant";
+export const model = "llama-3.3-70b-versatile";
 
-export const DEFAULT_CHAT_MODEL = "llama-3.1-8b-instant";
+export const DEFAULT_CHAT_MODEL = "llama-3.3-70b-versatile";
 
 export type ChatModel = {
   id: string;
