@@ -4,11 +4,6 @@
   "devCommand": "pnpm dev",
   "outputDirectory": ".next",
   "framework": "nextjs",
-  "functions": {
-    "app/api/**/*.ts": {
-      "maxDuration": 30
-    }
-  },
   "builds": [
     {
       "src": "api/index.py",
