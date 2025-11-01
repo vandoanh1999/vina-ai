@@ -1,32 +1,39 @@
 import { createGroq } from "@ai-sdk/groq";
-import { customProvider } from "ai";
+import { customProvider, type LanguageModel } from "ai";
 import { isTestEnvironment } from "../constants";
 import { env } from "../env";
 
-// Tạo Groq provider
+// Create the base Groq provider
 const groq = createGroq({
   apiKey: env.GROQ_API_KEY,
 });
 
-// Safe language model helper: try requested model and fall back to a known available one.
-function safeLanguageModel(modelId: string) {
+// Helper function to safely get a language model, falling back to a default
+function getLanguageModel(modelId: string, fallbackModelId: string): LanguageModel {
   try {
     return groq.languageModel(modelId);
   } catch (err) {
-    // If the requested model isn't available at runtime, fall back to a smaller/guaranteed model.
-    // We don't throw here because an unavailable model should not crash the server.
-    // Log a warning so the issue is visible in runtime logs.
     // eslint-disable-next-line no-console
     console.warn(
-      `[ai] languageModel ${modelId} unavailable, falling back to llama-3.1-8b-instant:`,
+      `[ai] languageModel ${modelId} unavailable, falling back to ${fallbackModelId}:`,
       err
     );
-    return groq.languageModel("llama-3.1-8b-instant");
+    return groq.languageModel(fallbackModelId);
   }
 }
 
+// Define the language models with their specific configurations and fallbacks
+const languageModels = {
+  "chat-model": getLanguageModel("llama-3.1-70b-versatile", "llama-3.1-8b-instant"),
+  "chat-model-reasoning": getLanguageModel("llama-3.1-70b-versatile", "llama-3.1-8b-instant"),
+  "title-model": getLanguageModel("llama-3.1-8b-instant", "llama-3.1-8b-instant"),
+  "artifact-model": getLanguageModel("llama-3.1-70b-versatile", "llama-3.1-8b-instant"),
+};
+
+// Create the custom provider
 export const myProvider = isTestEnvironment
   ? (() => {
+      // Mock provider for testing environment
       const {
         artifactModel,
         chatModel,
@@ -43,10 +50,6 @@ export const myProvider = isTestEnvironment
       });
     })()
   : customProvider({
-      languageModels: {
-        "chat-model": safeLanguageModel("llama-3.3-70b-versatile"),
-        "chat-model-reasoning": safeLanguageModel("llama-3.3-70b-versatile"),
-        "title-model": safeLanguageModel("llama-3.1-8b-instant"),
-        "artifact-model": safeLanguageModel("llama-3.3-70b-versatile"),
-      },
+      languageModels: languageModels as any,
+      fallbackProvider: groq, // Use the groq provider for any models not explicitly defined
     });

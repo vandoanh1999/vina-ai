@@ -105,12 +105,17 @@ export function Chat({
     onFinish: async (message) => {
       mutate(unstable_serialize(getChatHistoryPaginationKey));
 
-      const truthEngineResult = await fetch("/api", {
+      const truthEngineResult = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ problem: message.parts[0].content }),
+        body: JSON.stringify({
+          problem:
+            message.message.parts[0].type === "text"
+              ? message.message.parts[0].text
+              : "",
+        }),
       }).then((res) => res.json());
 
       if (truthEngineResult) {
@@ -125,7 +130,7 @@ export function Chat({
         `;
         setMessages([
           ...messages,
-          message,
+          message.message,
           {
             id: generateUUID(),
             role: "assistant",
