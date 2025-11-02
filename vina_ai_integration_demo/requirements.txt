@@ -1,0 +1,7 @@
+numpy
+scikit-learn
+scipy
+POT
+fastapi
+uvicorn
+aiohttp
