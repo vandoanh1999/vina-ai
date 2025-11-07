@@ -1,7 +1,7 @@
 // Avoid instantiating a specific groq model at import time; use ids and resolve at runtime.
-export const model = "llama-3.3-70b-versatile";
+export const model = "llama3-70b-8192";
 
-export const DEFAULT_CHAT_MODEL = "llama-3.3-70b-versatile";
+export const DEFAULT_CHAT_MODEL = "llama3-70b-8192";
 
 export type ChatModel = {
   id: string;
@@ -11,9 +11,9 @@ export type ChatModel = {
 
 export const chatModels: ChatModel[] = [
   {
-    id: "llama-3.3-70b-versatile",
-    name: "Groq LLaMA 3.3 70B Versatile",
-    description: "Fast, high-accuracy Groq Cloud model (≈ GPT-4 Turbo)",
+    id: "llama3-70b-8192",
+    name: "Groq LLaMA 3 70B",
+    description: "The latest LLaMA 3 model from Groq",
   },
   {
     id: "llama-3.1-8b-instant",
