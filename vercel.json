@@ -1,7 +1,4 @@
 {
-  "engines": {
-    "node": "20.x"
-  },
   "framework": "nextjs",
   "buildCommand": "pnpm run build",
   "installCommand": "pnpm install --frozen-lockfile",
