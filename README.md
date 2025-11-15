@@ -1,4 +1,4 @@
-<a href="https://chat.vercel.ai/">
+<a href="https://chat.vercel.ai/"> 
   <h1 align="center">Chat SDK</h1>
 </a>
 
