@@ -278,36 +278,13 @@ class AbsoluteTruthEngine:
             falsifiability_test={'hash': self._generate_hash(proof_chain)}
         )
 
-class MedicalDecisionEngine(AbsoluteTruthEngine):
-    def __init__(self):
-        super().__init__()
-        self.min_confidence = 0.95
-        self._load_medical_knowledge()
-
-    def _load_medical_knowledge(self):
-        self.kg.add_fact(
-            "Đau ngực kéo dài > 20 phút là dấu hiệu nghi ACS",
-            [Evidence(content="Chest pain >20min suggests ACS", source="AHA/ACC 2023", type=EvidenceType.CLINICAL_GUIDELINE, publication_date="2023-01", citations=1247, confidence=0.98)],
-            0.98
-        )
-        self.kg.add_fact(
-            "Huyết áp ≥ 160/100 mmHg được phân loại là tăng huyết áp độ 2",
-            [Evidence(content="BP ≥160/100 is Stage 2 Hypertension", source="ESC/ESH 2023", type=EvidenceType.CLINICAL_GUIDELINE, publication_date="2023-03", citations=892, confidence=1.0)],
-            1.0
-        )
-        self.kg.add_fact(
-            "Đau ngực cấp + Tăng huyết áp độ 2 có nguy cơ STEMI 82-87%",
-            [Evidence(content="Acute chest pain + Stage2 HTN → STEMI risk 82-87%", source="Meta-analysis 2023", type=EvidenceType.META_ANALYSIS, publication_date="2023-06", citations=234, confidence=0.95)],
-            0.95
-        )
-
 class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         data = json.loads(post_data)
 
-        engine = MedicalDecisionEngine()
+        engine = AbsoluteTruthEngine()
         decision = engine.solve(data['problem'])
 
         self.send_response(200)
