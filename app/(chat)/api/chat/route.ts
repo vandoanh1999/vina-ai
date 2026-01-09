@@ -1,10 +1,10 @@
 import { geolocation } from "@vercel/functions";
 import {
-  convertToModelMessages,
-  createUIMessageStream,
-  JsonToSseTransformStream,
-  smoothStream,
-  stepCountIs,
+  experimental_convertToModelMessages as convertToModelMessages,
+  experimental_createAssistant as createUIMessageStream,
+  experimental_JsonToSseStreamEncoder as JsonToSseTransformStream,
+  experimental_smoothStream as smoothStream,
+  experimental_stepCountIs as stepCountIs,
   streamText,
 } from "ai";
 import { unstable_cache as cache } from "next/cache";
