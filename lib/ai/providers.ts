@@ -1,5 +1,5 @@
 import { createGroq } from "@ai-sdk/groq";
-import { customProvider } from "ai";
+import { createProvider } from "ai";
 import { isTestEnvironment } from "../constants";
 import { env } from "../env";
 
